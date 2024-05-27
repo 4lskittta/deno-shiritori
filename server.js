@@ -2,7 +2,7 @@
  // アクセス数を保持する変数をグローバル領域に定義
  // localhostにDenoのHTTPサーバーを展開
  import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
- let previousWord = "しりとり";
+ let previousWord = "сайноо";
 
  Deno.serve(async (request)=>{
      const pathname = new URL(request.url).pathname;
