@@ -47,6 +47,18 @@
                     }
                 );
              } 
+             else if(nextWord.length===1){
+                return new Response(
+                    JSON.stringify({
+                        "errorMessage4":"２文字以上の単語を入力してください",
+                        "errorCode":"10004"
+                    }),
+                    {
+                        status:404,
+                        headers:{"Content-Type":"application/json; charset=utf-8"},
+                    }
+                );
+             } 
              // 同一であれば、previousWordを更新
              previousWord = nextWord;
              wordHistories.push(previousWord);
