@@ -14,6 +14,7 @@
 　<!-- 次の文字を入力するフォーム -->
 　<input id="nextWordInput" type="text" />
   <button id="nextWordSendButton">送信</button>　
+  <button id="resetSendButton">リセット</button>
   <p id="previousWord"></p>
 　 <!-- JavaScriptを実行 -->
   <script>
@@ -32,7 +33,7 @@
        // inputタグを取得
        const nextWordInput = document.querySelector("#nextWordInput");
        // inputの中身を取得
-       const nextWordInputText = nextWordInput.value;
+       const nextWordInputText = nextWordInput.value
        // POST /shiritoriを実行
        // 次の単語をresponseに格納
        const response = await fetch(
@@ -45,12 +46,21 @@
        );
  
        // status: 200以外が返ってきた場合にエラーを表示
-       if (response.status !== 200) {
+       if (response.status === 401) {
          const errorJson = await response.text();
          const errorObj = JSON.parse(errorJson);
-         alert(errorObj["errorMessage"]);
+         alert(errorObj["errorMessage1"]);
        }
- 
+       else if (response.status === 402) {
+         const errorJson = await response.text();
+         const errorObj = JSON.parse(errorJson);
+         alert(errorObj["errorMessage2"]);
+       }
+       else if (response.status === 403) {
+         const errorJson = await response.text();
+         const errorObj = JSON.parse(errorJson);
+         alert(errorObj["errorMessage3"]);
+       }
        const previousWord = await response.text();
  
        // id: previousWordのタグを取得
@@ -59,6 +69,19 @@
        paragraph.innerHTML = `前の単語: ${previousWord}`;
        // inputタグの中身を消去する
        nextWordInput.value = "";
+     }
+       // 送信ボタンの押下時に実行
+     document.querySelector("#resetSendButton").onclick = async(event) => {
+       // POST /resetを実行
+       const response = await fetch(
+         "/reset",
+         {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+         }
+       );
+       // ページをリロードする
+       location.reload();
      }
   </script>
 </body>
